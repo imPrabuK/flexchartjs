@@ -70,11 +70,12 @@ This will generate a `dist/` folder containing `.js`, `.mjs`, and `.d.ts` files.
 
 1.  **Create an NPM Account**: Go to [npmjs.com](https://www.npmjs.com/) and sign up.
 2.  **Login in Terminal**:
+    Run the following command and authenticate via the browser. This uses the new secure authentication flow.
     ```bash
     npm login
     ```
 3.  **Publish**:
-    Navigate to your package directory (`packages/core`) and run:
+    Navigate to your package directory (`packages/flexchartjs`) and run:
     ```bash
     npm publish --access public
     ```
@@ -94,7 +95,16 @@ If you want a custom domain like `cdn.flexchartjs.com`:
 
 ## 6. GitHub Actions (Automated Publishing)
 
-Create a `.github/workflows/publish.yml` file to automate this:
+We recommend using **Trusted Publishing** (OIDC) instead of managing long-lived tokens. This is more secure and avoids the need to rotate tokens.
+
+1.  **Configure npm**:
+    *   Go to your package settings on [npmjs.com](https://www.npmjs.com/).
+    *   Click "Settings" -> "Publishing Access".
+    *   Under "Trusted Publishing", connect your GitHub repository.
+    *   Select the workflow filename (`publish.yml`) and the environment (optional).
+
+2.  **Create Workflow**:
+    Create `.github/workflows/publish.yml` with the following content. Note the `permissions: id-token: write` which is required for OIDC.
 
 ```yaml
 name: Publish Package
@@ -103,8 +113,11 @@ on:
     types: [created]
 
 jobs:
-  build:
+  publish:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write # Required for Trusted Publishing
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -113,7 +126,9 @@ jobs:
           registry-url: 'https://registry.npmjs.org'
       - run: npm ci
       - run: npm run build
-      - run: npm publish
+        working-directory: ./packages/flexchartjs
+      - run: npm publish --provenance --access public
+        working-directory: ./packages/flexchartjs
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }} # Optional fallback
 ```

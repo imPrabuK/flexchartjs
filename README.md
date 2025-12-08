@@ -1,36 +1,60 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# FlexChartJS Project
 
-## Getting Started
+This repository contains the source code for **FlexChartJS**, a modern React charting library, and its documentation website.
 
-First, run the development server:
+## Project Structure
+
+*   `packages/flexchartjs`: The core library package.
+*   `app/`: The documentation website (Next.js).
+
+## Using the Library
+
+To use FlexChartJS in your project, install it from npm:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install flexchartjs
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Example
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```tsx
+import { BarChart } from 'flexchartjs';
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+const MyComponent = () => (
+  <BarChart
+    option={{
+      xAxis: { data: ['A', 'B', 'C'] },
+      series: [{ data: [10, 20, 30] }]
+    }}
+  />
+);
+```
 
-## Learn More
+For more detailed documentation, visit the [documentation website](https://flexchartjs.vercel.app) (or run the local dev server).
 
-To learn more about Next.js, take a look at the following resources:
+## Development
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+To develop locally:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+1.  Install dependencies:
+    ```bash
+    npm install
+    ```
 
-## Deploy on Vercel
+2.  Run the development server (starts the docs site):
+    ```bash
+    npm run dev
+    ```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Publishing
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+We use **Trusted Publishing** (OIDC) to publish to npm automatically.
+When a new **Release** is created on GitHub, the `.github/workflows/publish.yml` workflow triggers, builds the package in `packages/flexchartjs`, and publishes it to npm.
+
+### How to Release
+
+1.  Update the version in `packages/flexchartjs/package.json`.
+2.  Commit and push the change.
+3.  Go to the GitHub repository and draft a new **Release**.
+4.  Tag the release (e.g., `v1.0.1`).
+5.  Publish the release. The Action will handle the rest.
