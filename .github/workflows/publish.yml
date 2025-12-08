@@ -17,7 +17,10 @@ jobs:
           registry-url: 'https://registry.npmjs.org'
       
       # Install dependencies in the root (assuming workspace or root lockfile)
-      - run: npm ci
+      # Fix for Rollup optional dependency issue on Linux CI
+      - run: rm -f package-lock.json && rm -f packages/flexchartjs/package-lock.json
+      - run: npm install
+
       
       # Build the package
       - run: npm run build
