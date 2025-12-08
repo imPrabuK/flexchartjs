@@ -21,8 +21,13 @@ jobs:
       - run: rm -rf package-lock.json node_modules
         working-directory: ./packages/flexchartjs
       
-      - run: npm install && npm install -D @types/react @types/react-dom
+      - run: npm install
         working-directory: ./packages/flexchartjs
+
+      # Explicitly install types to ensure they are available for the build
+      - run: npm install --no-save @types/react @types/react-dom
+        working-directory: ./packages/flexchartjs
+
 
 
 
