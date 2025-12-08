@@ -17,12 +17,13 @@ jobs:
           registry-url: 'https://registry.npmjs.org'
       
       # Install dependencies inside the package directory
-      # We remove package-lock.json to ensure platform-specific optional dependencies (Rollup) are resolved correctly for Linux
-      - run: rm -f package-lock.json
+      # We remove package-lock.json AND node_modules to ensure platform-specific optional dependencies (Rollup) are resolved correctly for Linux
+      - run: rm -rf package-lock.json node_modules
         working-directory: ./packages/flexchartjs
       
       - run: npm install
         working-directory: ./packages/flexchartjs
+
 
 
       
