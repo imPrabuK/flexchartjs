@@ -35,9 +35,9 @@ jobs:
         working-directory: ./packages/flexchartjs
 
       # Publish the package
-      - run: npm publish --provenance --access public
+      - run: |
+          echo "//registry.npmjs.org/:_authToken=${NODE_AUTH_TOKEN}" > .npmrc
+          npm publish --provenance --access public
         working-directory: ./packages/flexchartjs
         env:
-          # If using Trusted Publishing, this token is not strictly needed, 
-          # but keeping it allows for fallback to standard token auth if OIDC isn't set up yet.
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
