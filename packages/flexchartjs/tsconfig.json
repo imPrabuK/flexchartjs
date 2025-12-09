@@ -9,7 +9,7 @@
         ],
         "module": "ESNext",
         "skipLibCheck": true,
-        "moduleResolution": "bundler",
+        "moduleResolution": "node",
         // "allowImportingTsExtensions": true,
         "resolveJsonModule": true,
         "isolatedModules": true,
@@ -19,7 +19,11 @@
         "noUnusedLocals": true,
         "noUnusedParameters": true,
         "noFallthroughCasesInSwitch": true,
-        "declaration": true
+        "declaration": true,
+        "types": [
+            "react",
+            "react-dom"
+        ]
     },
     "include": [
         "src"

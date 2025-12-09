@@ -5,12 +5,12 @@ export type OptionLike = {
     yAxis?: { type?: string; min?: number; max?: number } | { type?: string }[];
     series?: {
         name?: string;
-        data?: (number | { value: number; name?: string; itemStyle?: { color?: string } })[];
+        data?: (number | { value: number; name?: string; itemStyle?: { color?: string | { type: string; colorStops: { offset: number; color: string }[] } } })[];
         type?: string;
         smooth?: boolean;
         areaStyle?: { color?: string; opacity?: number };
         lineStyle?: { color?: string | { type: string; colorStops: { offset: number; color: string }[] }; width?: number; type?: 'solid' | 'dashed' | 'dotted' };
-        itemStyle?: { color?: string; borderRadius?: number; borderColor?: string; borderWidth?: number };
+        itemStyle?: { color?: string | { type: string; colorStops: { offset: number; color: string }[] }; borderRadius?: number; borderColor?: string; borderWidth?: number };
         stack?: string;
         step?: string;
         symbol?: string;
@@ -18,6 +18,8 @@ export type OptionLike = {
         radius?: string | string[]; // For Pie
         roseType?: string | boolean; // For Pie
         center?: string[]; // For Pie
+        startAngle?: number; // For Pie
+        label?: { show?: boolean; position?: string; color?: string }; // For Pie
     }[];
     backgroundColor?: string;
     title?: { text: string; left?: string; top?: string; textStyle?: { color?: string } };
@@ -82,7 +84,11 @@ export function LineChart({ option, width = "100%", height = "100%", className }
             if (s.lineStyle?.color && typeof s.lineStyle.color === 'string') {
                 color = s.lineStyle.color;
             } else if (s.itemStyle?.color) {
-                color = s.itemStyle.color;
+                if (typeof s.itemStyle.color === 'string') {
+                    color = s.itemStyle.color;
+                } else if (s.itemStyle.color.colorStops) {
+                    color = s.itemStyle.color.colorStops[0]?.color || COLORS[sIdx % COLORS.length];
+                }
             }
 
             // Handle gradient object (simplified fallback)

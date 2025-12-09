@@ -111,16 +111,13 @@ export function PieChart({ option, width = "100%", height = "100%", className }:
             }
 
             // Handle gradient color object
-            let color = item.itemStyle?.color || COLORS[idx % COLORS.length];
-            if (typeof color === 'object' && color.type === 'linear') {
-                // Fallback for gradient object to simple color for now, or just use first stop
-                color = color.colorStops?.[0]?.color || COLORS[idx % COLORS.length];
-            }
-
-            // Handle opacity
-            let opacity = 1;
-            if (item.itemStyle?.color && typeof item.itemStyle.color === 'string' && item.itemStyle.color.startsWith('rgba')) {
-                // keep as is
+            let color: string = COLORS[idx % COLORS.length];
+            if (item.itemStyle?.color) {
+                if (typeof item.itemStyle.color === 'string') {
+                    color = item.itemStyle.color;
+                } else if (item.itemStyle.color.colorStops) {
+                    color = item.itemStyle.color.colorStops[0]?.color || COLORS[idx % COLORS.length];
+                }
             }
 
             startAngle = endAngle;

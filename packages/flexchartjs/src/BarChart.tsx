@@ -59,7 +59,11 @@ export function BarChart({ option, width = "100%", height = "100%", className }:
             // Determine color
             let color = COLORS[sIdx % COLORS.length];
             if (s.itemStyle?.color) {
-                color = s.itemStyle.color;
+                if (typeof s.itemStyle.color === 'string') {
+                    color = s.itemStyle.color;
+                } else if (s.itemStyle.color.colorStops) {
+                    color = s.itemStyle.color.colorStops[0]?.color || COLORS[sIdx % COLORS.length];
+                }
             }
 
             return {
