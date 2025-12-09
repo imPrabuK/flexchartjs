@@ -85,6 +85,9 @@ To publish a new version:
 2.  Create a new GitHub Release.
 3.  The GitHub Action will automatically build and publish the package to npm.
 
+## Documentation
+For full documentation and examples, visit [flexchartjs.com](https://flexchartjs.com) (Coming Soon).
+
 ## License
 
 MIT License
@@ -92,4 +95,4 @@ MIT License
 Copyright (c) 2025 Prabhu
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
-  
+
